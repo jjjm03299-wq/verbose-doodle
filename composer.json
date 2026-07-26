@@ -1,5 +1,5 @@
 {
-  "name": "vendor/php-selenium-client",
+  "name": "jjjm03299-wq/php-selenium-client",
   "description": "PHP client for a custom Selenium WebDriver server",
   "type": "library",
   "license": "MIT",
@@ -9,7 +9,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Vendor\\Selenium\\": "src/"
+      "Jjjm03299\\Selenium\\": "src/"
     }
   },
   "bin": [
