@@ -1,0 +1,61 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use Vendor\Selenium\SeleniumClient;
+
+$client = new SeleniumClient();
+
+function usage(): void
+{
+    echo "PHP Selenium Client\n";
+    echo "\n";
+    echo "Usage:\n";
+    echo "  selenium-client --status\n";
+    echo "  selenium-client --url=<URL>\n";
+    echo "  selenium-client --session\n";
+    echo "  selenium-client --delete=<SESSION_ID>\n";
+    echo "\n";
+    echo "Examples:\n";
+    echo "  selenium-client --status\n";
+    echo "  selenium-client --url=https://example.com\n";
+    echo "  selenium-client --session\n";
+    echo "  selenium-client --delete=SESSION_ID\n";
+}
+
+if ($argc < 2) {
+    usage();
+    exit(1);
+}
+
+foreach (array_slice($argv, 1) as $arg) {
+
+    switch (true) {
+
+        case $arg === '--status':
+            echo $client->status() . PHP_EOL;
+            exit(0);
+
+        case $arg === '--session':
+            echo $client->createSession([
+                'browserName' => 'chrome'
+            ]) . PHP_EOL;
+            exit(0);
+
+        case str_starts_with($arg, '--delete='):
+            $sessionId = substr($arg, 9);
+            echo $client->deleteSession($sessionId) . PHP_EOL;
+            exit(0);
+
+        case str_starts_with($arg, '--url='):
+            $url = substr($arg, 6);
+            echo $client->open($url) . PHP_EOL;
+            exit(0);
+    }
+}
+
+usage();
+exit(1);
